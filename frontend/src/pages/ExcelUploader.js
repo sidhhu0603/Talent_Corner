@@ -23,7 +23,7 @@ const ExcelUploader = ({ sidebarOpen }) => {
     formData.append('csvFile', file);
 
     try {
-      const response = await axios.post('http://localhost:3001/api/upload-csv', formData, {
+      const response = await axios.post('https://talent-corner.onrender.com/api/upload-csv', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },

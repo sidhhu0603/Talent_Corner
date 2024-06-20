@@ -12,11 +12,12 @@ const Profiles = () => {
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const backend = "https://talent-corner.onrender.com";
 
   useEffect(() => {
     const fetchUserDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:3001/api/user-details/${contactNo}`);
+        const response = await axios.get(`${backend}/api/user-details/${contactNo}`);
         setUserDetails(response.data);
         setFormData(response.data);
         setIsLoading(false); 
@@ -36,7 +37,7 @@ const Profiles = () => {
 
   const handleSaveChanges = async () => {
     try {
-      await axios.put(`http://localhost:3001/api/update-user-details/${contactNo}`, formData);
+      await axios.put(`${backend}/api/update-user-details/${contactNo}`, formData);
       setUserDetails(formData);
       setIsEditing(false);
       setIsLoading(false); 
