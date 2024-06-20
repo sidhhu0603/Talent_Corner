@@ -1,0 +1,63 @@
+/* Assuming this is added to your UserProfile.css or a global CSS file */
+.scrollable-container {
+  margin-left: 250px;
+  max-height: 100vh; /* or any desired max height */
+  overflow-y: auto;
+  max-width: 100%;
+  padding: 20px;
+}
+
+.profile-widget {
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e3e3e3;
+}
+
+.avatar {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: 5px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.text-secondary {
+  color: #666;
+}
+
+.close-icon {
+  border: 2px solid #ffffff; /* Add a border to create a circle */
+  border-radius: 50%; /* Make the border round */
+  padding: 5px; /* Adjust padding to control the size of the circle */
+  cursor: pointer; /* Change cursor to pointer */
+  position: absolute; /* Position the icon */
+  width: 30px;
+  height: 30px;
+  color: white;
+  top: 10px; /* Adjust position as needed */
+  left: 10px; /* Adjust position as needed */
+  background-color: #674F7F; /* Optional: background color */
+}
+
+
+.card-title {
+  font-size: 18px;
+  font-weight: bold;
+  color:#6a0dad ;
+}
+
+.card-body p {
+  margin-bottom: 5px;
+  color:#6a0dad ;
+}
+.btn{  
+  background-color: #674F7F !important;
+}

@@ -1,0 +1,363 @@
+/* Add this CSS transition */
+
+.sidebar.active .contentsContainer li:hover .text {
+    display: inline-block;
+
+}
+/* Your existing CSS */
+@import "./_variables";
+
+
+  
+.main-container {
+    display: flex;
+ }
+
+.main {
+    padding: 10px;
+  }
+
+.h1{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar {
+    background-color: #fff;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+    left: 0;
+    padding: 1rem 2rem;
+    width: 19rem;
+    height: 100vh;
+    transition: 0.5s all;
+    
+
+ 
+    .logoContainer {
+        padding: 0rem 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: 0.5s all;
+       
+
+        .logo {
+            border-radius: 50%;
+            border: 1px solid #6d6565; /* Optional: Adds a border around the circle */
+            box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.7);
+            object-fit: cover;
+            width: 150px; /* Adjust the width of the logo as needed */
+            height: auto;
+            transition: 0.5s all; /* Maintain aspect ratio */
+        }
+
+
+        h2.title {
+            font-size: 31.42px;
+            color: $blue;
+            padding: 0 0 0 1rem;
+        }
+    }
+
+    .burgerContainer {
+        content: "";
+        background-color: $blue;
+         /* Add position relative */
+        z-index: 2; /* Set higher z-index than sidebar */
+        position: absolute;
+        right: (-35px / 2);
+        top: calc(9rem / 0.8);
+        width: 35px;
+        height: 35px;
+        border-radius: 2rem;
+        z-index: 2;
+
+        .burgerTrigger {
+            content: "";
+            width: 35px;
+            height: 35px;
+            background-color: red;
+            cursor: pointer;
+            z-index: 6;
+            opacity: 0;
+            position: relative;
+        }
+
+        .burgerMenu {
+            content: "";
+            background-color: $blue;
+            position: relative;
+            z-index: 1;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            bottom: calc(35px / 2);
+            left: 0.45rem;
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::after {
+            content: "";
+            background-color: $white;
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            top: 0.4rem;
+            transform: translateY(-0.4rem) rotate(45deg);
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::before {
+            content: "";
+            background-color: $white;
+            position: absolute;
+            width: 20px;
+            height: 3px;
+            border-radius: 2rem;
+            top: -0.4rem;
+            transform: translateY(0.4rem) rotate(-45deg);
+            transition: 0.5s all;
+        }
+    }
+
+    .burgerContainer::after {
+        content: "";
+        position: absolute;
+        right: 35px;
+        top: (35px / 2);
+        z-index: 0;
+        width: calc(6rem + 15rem);
+        background-color: $lightGrey;
+        height: 2px;
+        transition: 0.5s all;
+    }
+
+    .profileContainer {
+        
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 4rem 0 0 0;/* Ensure it appears below the logo and burger menu */
+        
+    
+        img {
+            width: auto;
+            height: 3rem;
+            
+        }
+    
+        .profileContents {
+            padding: 0 0 0 1rem;
+            
+    
+            p.name {
+                padding: 0;
+                margin: 0;
+                font-size: 17px;
+                color: $darkGrey;
+                text-transform: capitalize;
+                font-weight: $heavyFont;
+            }
+    
+            p {
+                padding: 0;
+                margin: 0;
+                font-size: 13.9px;
+                color: $darkGrey;
+                text-transform: lowercase;
+            }
+        }
+    }
+    .contentsContainer {
+        
+        margin: 2rem 0 0 0;
+
+        ul {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            flex-direction: column;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+
+            li {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                flex-direction: row;
+                margin: 0.5rem 0;
+                padding: 0.35rem 0;
+                width: 100%;
+                border-radius: 1rem;
+                cursor: pointer;
+                position: relative; 
+
+                img {
+                    padding: 0 1rem 0 0.8rem;
+                }
+                .img-specific-padding {
+                    padding-left: 19px; /* Adjust padding as needed */
+                }
+
+                
+                a {
+                    text-decoration: none;
+                    color: $darkGrey;
+                    font-size: 20px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    margin: 0 0 0 0.5rem;
+                    vertical-align: middle; /* Add this line */
+                }
+    
+
+                .label {
+                    position: absolute;
+                   /* Adjust the percentage to move it up or down */
+                    left: 4rem;
+                    font-size: 1.2rem;
+                }
+                
+
+                .text {
+                    display: none;
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    left: 5rem; /* Adjust the distance from the sidebar */
+                    background-color: #e5defc;
+                    color: #4c51bf;
+                    border-radius: 0.379rem;
+                    padding: 0.25rem 0.5rem;
+                    margin-left: 0.75rem;
+                    font-size: 1.2rem;
+                }
+        
+
+               
+            }
+
+            li.active {
+                background-color: $veryLightGreen;
+                color: $blue;
+                font-weight: bold;
+                padding: 0.75rem 0rem;
+              
+                a {
+                    color: $blue;
+                }
+                .label {
+                    color: $blue;
+                }
+            }
+
+            li:hover {
+                background-color: $lightGrey;
+                transition: 0.35s;
+                color: #4c51bf;
+                padding: 0.75rem 0rem;
+                
+            }
+        }
+    }
+}
+
+.sidebar.active {
+    width: 7rem;
+    
+    transition: 0.5s all;
+
+    .logoContainer.active {
+        justify-content: center;
+        
+        h2.title {
+            opacity: 0;
+        }
+    
+    }
+    .logoContainer.active .logo {
+        margin: 2rem 0;
+        border-radius: 50%;
+        border: 1px solid #6d6565; /* Optional: Adds a border around the circle */
+        box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.7);
+        object-fit: cover;
+        width: 80px;
+        height: auto;
+        transition: 0.5s all; /* Add transition for logo size */
+    }
+
+    
+   
+
+    .burgerContainer.active {
+        transition: 0.5s all;
+        .burgerMenu {
+            background-color: $white;
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::before {
+            transform: translateY(0rem) rotate(0deg);
+            transition: 0.5s all;
+        }
+
+        .burgerMenu::after {
+            transform: translateY(0rem) rotate(0deg);
+            transition: 0.5s all;
+        }
+    }
+
+    .profileContainer {
+        padding: 4rem 0 0 0;
+        .profileContents {
+            opacity: 0;
+        }
+    }
+
+    .contentsContainer {
+        li.active {
+            background-color: $veryLightGreen;
+            color: $blue;
+            font-weight: bold;
+            width: 50px;
+            height: 50px;
+        }
+        li:hover {
+            background-color: $lightGrey;
+            transition: 0.35s;
+            color: #4c51bf;
+            width: 50px;
+            height: 50px;
+        }
+        img {
+            padding: 0 1rem 0 0.5rem;
+        }
+        .img-specific-padding {
+            padding-left: 12px; /* Adjust padding as needed */
+        }
+        a {
+            opacity: 0;
+        }
+    }
+    
+    
+}
+
+
+
+/* styles/main.scss */
+
+.page-content {
+    transition: margin-left 0.3s;
+  }
+  
+
+  

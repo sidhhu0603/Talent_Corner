@@ -1,0 +1,23 @@
+/* Sidebar.css */
+
+.sidebar {
+    z-index: 1000;
+}
+
+.sidebar.active {
+    left: 0;  /* Slide in */
+}
+
+
+.page-content {
+    margin-left: 90px;
+    transition: margin-left 0.3s ease;
+    padding: 20px;
+    width: 90%;
+}
+
+.page-content.shifted {
+    margin-left: 250px; 
+    width: 80%;
+     /* Shift content when sidebar is open */
+}
