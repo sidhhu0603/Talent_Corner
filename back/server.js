@@ -3,7 +3,6 @@ const cors = require('cors');
 const multer = require('multer');
 const csvParser = require('csv-parser');
 const { Readable } = require('stream');
-const nodemailer = require('nodemailer');
 const dboperations = require('./dbOperations');
 const app = express();
 const port = 3001;
