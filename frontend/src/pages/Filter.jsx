@@ -74,7 +74,7 @@ function Filter(props) {
                 }
             });
             setFilteredData(response.data);
-            setTotalPages(Math.ceil(response.headers['x-total-count'] / 10));
+            setTotalPages(Math.ceil(response.headers['x-total-count'] / 20));
         } catch (error) {
             console.error('Error filtering data:', error);
         }

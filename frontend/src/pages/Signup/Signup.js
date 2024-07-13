@@ -21,11 +21,13 @@ function Signup() {
   const [submitButtonDisabled, setSubmitButtonDisabled] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
+
   const handleSubmission = () => {
     if (!values.name || !values.email || !values.pass) {
       setErrorMsg("Fill all fields");
       return;
     }
+
 
     setErrorMsg("");
     setSubmitButtonDisabled(true);
