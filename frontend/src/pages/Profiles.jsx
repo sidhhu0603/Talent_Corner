@@ -12,7 +12,7 @@ const Profiles = () => {
   const [formData, setFormData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  const backend = "https://talent-corner.onrender.com";
+  const backend = "https://talent-corner-b7v4.onrender.com";
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -36,6 +36,7 @@ const Profiles = () => {
   };
 
   const handleSaveChanges = async () => {
+    setIsLoading(true);
     try {
       await axios.put(`${backend}/api/update-user-details/${contactNo}`, formData);
       setUserDetails(formData);
@@ -195,7 +196,7 @@ const Profiles = () => {
                           <h6 className="mb-0">Year of Passing</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                          <input type="text" className="form-control" name="pg_yeat" value={formData.pg_yeat} onChange={handleInputChange} />
+                          <input type="text" className="form-control" name="pg_year" value={formData.pg_year} onChange={handleInputChange} />
                         </div>
                       </div>
                       <hr></hr>
@@ -348,7 +349,7 @@ const Profiles = () => {
                           <h6 className="mb-0">Year of Passing</h6>
                         </div>
                         <div className="col-sm-9 text-secondary">
-                          <p>{userDetails.pg_yeat}</p>
+                          <p>{userDetails.pg_year}</p>
                         </div>
                       </div>
                       <hr />

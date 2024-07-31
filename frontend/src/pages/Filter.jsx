@@ -33,17 +33,17 @@ function Filter(props) {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://talent-corner.onrender.com/api/data');
+            const response = await axios.get('https://talent-corner-b7v4.onrender.com/api/data');
             setData(response.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response1 = await axios.get('https://talent-corner.onrender.com/api/data1');
+            const response1 = await axios.get('https://talent-corner-b7v4.onrender.com/api/data1');
             setData1(response1.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response2 = await axios.get('https://talent-corner.onrender.com/api/ug-degrees');
+            const response2 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ug-degrees');
             setUgDegrees(response2.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response3 = await axios.get('https://talent-corner.onrender.com/api/pg-degrees');
+            const response3 = await axios.get('https://talent-corner-b7v4.onrender.com/api/pg-degrees');
             setPgDegrees(response3.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response4 = await axios.get('https://talent-corner.onrender.com/api/ann-salaries');
+            const response4 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ann-salaries');
             setAnnSalaries(response4.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response5 = await axios.get('https://talent-corner.onrender.com/api/years-of-experience');
+            const response5 = await axios.get('https://talent-corner-b7v4.onrender.com/api/years-of-experience');
             setYearsOfExperience(response5.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
             fetchFilteredData();
         } catch (error) {
@@ -59,7 +59,7 @@ function Filter(props) {
             const selectedPgDegreesArray = selectedPgDegrees.map(item => item.label);
             const selectedAnnSalariesArray = selectedAnnSalaries.map(item => item.label);
             const selectedYearsOfExperienceArray = selectedYearsOfExperience.map(item => item.label);
-            const response = await axios.get('https://talent-corner.onrender.com/api/filter', {
+            const response = await axios.get('https://talent-corner-b7v4.onrender.com/api/filter', {
                 params: {
                     roles: selectedRolesArray,
                     locations: selectedLocationsArray,

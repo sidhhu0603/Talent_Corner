@@ -20,7 +20,7 @@ const Dashboard = ({ sidebarOpen }) => {
     const offset = (page - 1) * recordsPerPage;
     setIsLoading(true);
     try {
-      const response = await axios.get(`https://talent-corner.onrender.com/api/details`, {
+      const response = await axios.get(`https://talent-corner-b7v4.onrender.com/api/details`, {
         params: {
           offset,
           limit: recordsPerPage,
