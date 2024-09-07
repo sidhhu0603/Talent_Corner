@@ -31,34 +31,98 @@ function Filter(props) {
         fetchData();
     }, []);
 
+    const CACHE_TIMEOUT = 3600000; // 1 hour (optional)
+
     const fetchData = async () => {
         try {
-            const response = await axios.get('https://talent-corner-b7v4.onrender.com/api/data');
-            setData(response.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response1 = await axios.get('https://talent-corner-b7v4.onrender.com/api/data1');
-            setData1(response1.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response2 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ug-degrees');
-            setUgDegrees(response2.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response3 = await axios.get('https://talent-corner-b7v4.onrender.com/api/pg-degrees');
-            setPgDegrees(response3.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response4 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ann-salaries');
-            setAnnSalaries(response4.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
-            const response5 = await axios.get('https://talent-corner-b7v4.onrender.com/api/years-of-experience');
-            setYearsOfExperience(response5.data.map((item, index) => ({ ...item, uniqueId: index + 1 })));
+            const cachedData = localStorage.getItem('cachedData');
+            const cachedTime = localStorage.getItem('cachedTime');
+            const currentTime = new Date().getTime();
+
+            if (cachedData && cachedTime && (currentTime - cachedTime < CACHE_TIMEOUT)) {
+                const parsedData = JSON.parse(cachedData);
+                setData(parsedData.data);
+                setData1(parsedData.data1);
+                setUgDegrees(parsedData.ugDegrees);
+                setPgDegrees(parsedData.pgDegrees);
+                setAnnSalaries(parsedData.annSalaries);
+                setYearsOfExperience(parsedData.yearsOfExperience);
+            } else {
+                const response = await axios.get('https://talent-corner-b7v4.onrender.com/api/data');
+                const dataResponse = response.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setData(dataResponse);
+
+                const response1 = await axios.get('https://talent-corner-b7v4.onrender.com/api/data1');
+                const data1Response = response1.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setData1(data1Response);
+
+                const response2 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ug-degrees');
+                const ugDegreesResponse = response2.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setUgDegrees(ugDegreesResponse);
+
+                const response3 = await axios.get('https://talent-corner-b7v4.onrender.com/api/pg-degrees');
+                const pgDegreesResponse = response3.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setPgDegrees(pgDegreesResponse);
+
+                const response4 = await axios.get('https://talent-corner-b7v4.onrender.com/api/ann-salaries');
+                const annSalariesResponse = response4.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setAnnSalaries(annSalariesResponse);
+
+                const response5 = await axios.get('https://talent-corner-b7v4.onrender.com/api/years-of-experience');
+                const yearsOfExperienceResponse = response5.data.map((item, index) => ({ ...item, uniqueId: index + 1 }));
+                setYearsOfExperience(yearsOfExperienceResponse);
+
+                // Store all responses in localStorage with a timestamp
+                localStorage.setItem('cachedData', JSON.stringify({
+                    data: dataResponse,
+                    data1: data1Response,
+                    ugDegrees: ugDegreesResponse,
+                    pgDegrees: pgDegreesResponse,
+                    annSalaries: annSalariesResponse,
+                    yearsOfExperience: yearsOfExperienceResponse,
+                }));
+                localStorage.setItem('cachedTime', currentTime);
+            }
+
             fetchFilteredData();
         } catch (error) {
             console.error('Error fetching data:', error);
         }
     };
 
+
     const fetchFilteredData = async () => {
         try {
+            // Construct cache key based on the filter parameters
+            const cacheKey = `filteredData_${JSON.stringify({
+                roles: selectedRoles.map(item => item.label),
+                locations: selectedLocations.map(item => item.label),
+                ug_degrees: selectedUgDegrees.map(item => item.label),
+                pg_degrees: selectedPgDegrees.map(item => item.label),
+                ann_salaries: selectedAnnSalaries.map(item => item.label),
+                years_of_experience: selectedYearsOfExperience.map(item => item.label),
+                Gender: selectedGender,
+                Age: selectedAge,
+                page: currentPage
+            })}`;
+    
+            // Check if the data is already in the cache
+            const cachedData = localStorage.getItem(cacheKey);
+            if (cachedData) {
+                const { data, totalPages } = JSON.parse(cachedData);
+                setFilteredData(data);
+                setTotalPages(totalPages);
+                return; // Skip API call if data is found in cache
+            }
+    
+            // If no cached data, proceed with the API call
             const selectedRolesArray = selectedRoles.map(item => item.label);
             const selectedLocationsArray = selectedLocations.map(item => item.label);
             const selectedUgDegreesArray = selectedUgDegrees.map(item => item.label);
             const selectedPgDegreesArray = selectedPgDegrees.map(item => item.label);
             const selectedAnnSalariesArray = selectedAnnSalaries.map(item => item.label);
             const selectedYearsOfExperienceArray = selectedYearsOfExperience.map(item => item.label);
+    
             const response = await axios.get('https://talent-corner-b7v4.onrender.com/api/filter', {
                 params: {
                     roles: selectedRolesArray,
@@ -73,12 +137,25 @@ function Filter(props) {
                     limit: 20
                 }
             });
-            setFilteredData(response.data);
-            setTotalPages(Math.ceil(response.headers['x-total-count'] / 20));
+    
+            const fetchedData = response.data;
+            const totalPageCount = Math.ceil(response.headers['x-total-count'] / 20);
+    
+            // Set the fetched data to state
+            setFilteredData(fetchedData);
+            setTotalPages(totalPageCount);
+    
+            // Cache the fetched data
+            localStorage.setItem(cacheKey, JSON.stringify({
+                data: fetchedData,
+                totalPages: totalPageCount
+            }));
+    
         } catch (error) {
             console.error('Error filtering data:', error);
         }
     };
+    
 
     useEffect(() => {
         fetchFilteredData();

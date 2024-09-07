@@ -5,20 +5,44 @@ import Loader from './Loader';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import './Dashboard.css';
 
+const CACHE_DURATION = 60 * 5 * 1000; // Cache duration of 5 minutes
+
 const Dashboard = ({ sidebarOpen }) => {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const recordsPerPage = 50;
+  const recordsPerPage = 25;
   const [searchTerm, setSearchTerm] = useState('');
   const [isBooleanSearch, setIsBooleanSearch] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const cacheKey = (page, search, booleanSearch) =>
+    `dashboard_data_${page}_${search}_${booleanSearch}`;
+
+  const isCacheValid = (cachedData) => {
+    if (!cachedData || !cachedData.timestamp) return false;
+    const currentTime = new Date().getTime();
+    return currentTime - cachedData.timestamp < CACHE_DURATION;
+  };
+
   const fetchData = async (page, search = '', booleanSearch = false) => {
     const offset = (page - 1) * recordsPerPage;
     setIsLoading(true);
+
+    // Check local storage for cached data
+    const cacheData = JSON.parse(localStorage.getItem(cacheKey(page, search, booleanSearch)));
+    
+    if (cacheData && isCacheValid(cacheData)) {
+      // If cache is valid, use the cached data
+      setData(cacheData.data);
+      setFilteredData(cacheData.data);
+      setIsLoading(false);
+      return;
+    }
+
+    // If no valid cache, fetch from API
     try {
       const response = await axios.get(`https://talent-corner-b7v4.onrender.com/api/details`, {
         params: {
@@ -30,6 +54,12 @@ const Dashboard = ({ sidebarOpen }) => {
       });
       setData(response.data);
       setFilteredData(response.data);
+
+      // Cache the fetched data along with a timestamp
+      localStorage.setItem(
+        cacheKey(page, search, booleanSearch),
+        JSON.stringify({ data: response.data, timestamp: new Date().getTime() })
+      );
     } catch (error) {
       setError(error);
       console.error('Error fetching data:', error);
