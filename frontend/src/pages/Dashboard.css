@@ -181,7 +181,7 @@ input:checked + .slider:before {
 }
 
 .search-input {
-  padding-left: 30px; /* Adjust padding to accommodate the icon */
+  padding-left: 20px; /* Adjust padding to accommodate the icon */
   height: 40px;
   width: 500px;
   font-size: 16px;
@@ -192,10 +192,10 @@ input:checked + .slider:before {
 .search-icon {
   position: absolute; /* Position the icon absolutely */
   top: 50%; /* Center vertically */
-  left: 9px; /* Adjust left position */
+ /* Adjust left position */
   transform: translateY(-50%); /* Center vertically */
   cursor: pointer;
-  
+  right: 270px;
   width: 22px;
  
   color:  #674F7F;/* Make it round */

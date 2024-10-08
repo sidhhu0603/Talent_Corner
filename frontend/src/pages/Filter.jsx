@@ -163,10 +163,12 @@ function Filter(props) {
 
     const handlePrevPage = () => {
         if (currentPage > 1) setCurrentPage(currentPage - 1);
+        setSelectedRows([]);
       };
     
       const handleNextPage = () => {
         setCurrentPage(currentPage + 1);
+        setSelectedRows([]);
       };
 
     const handleWhatsAppClick = (contactNo) => {

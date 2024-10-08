@@ -97,9 +97,16 @@ const Dashboard = ({ sidebarOpen }) => {
   };
 
   const toggleBooleanSearch = () => {
-    setIsBooleanSearch(!isBooleanSearch);
+    const newBooleanSearch = !isBooleanSearch;
+    setIsBooleanSearch(newBooleanSearch);
+    
+    // Clear the search term when boolean search is turned off
+    if (!newBooleanSearch) {
+      setSearchTerm('');
+      fetchData(1, '', false); // Fetch data with empty search term
+    }
   };
-
+  
   const handleProfileClick = (contactNo) => {
     navigate(`/profiles/${contactNo}`);
   };
